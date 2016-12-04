@@ -25,6 +25,7 @@ function Game:_init()
 	-- self.countdownScreen = CountdownScreen(self)
 	-- self.level = Level(self.keyboard, nil, self) -- we should have it load by filename or something.
 	-- self.mainMenu = MainMenu(self)
+	love.filesystem.setIdentity("At the End of the Day") -- so that it doesn't save to src.
 	self.gameplay = Gameplay(self)
 	self.opening = Opening(self)
 	self.scoredisplay = Scoredisplay(self, self.filename)
