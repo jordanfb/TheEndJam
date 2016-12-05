@@ -82,7 +82,7 @@ end
 
 function Scoredisplay:keypressed(key, unicode)
 	--
-	if key == "p" then
+	if key == "p" and self.game.debug then
 		-- self.game:popScreenStack()
 		-- self.game:addToScreenStack(self.game.opening)
 		-- local file = io.open(self.filename, "w")

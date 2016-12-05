@@ -15,6 +15,7 @@ function Game:_init()
 
 	-- here are the actual variables
 	self.drawFPS = false
+	self.debug = false
 	self.filename = "data.txt"
 
 	self.canvas = love.graphics.newCanvas(1920, 1080)
@@ -25,7 +26,8 @@ function Game:_init()
 	-- self.countdownScreen = CountdownScreen(self)
 	-- self.level = Level(self.keyboard, nil, self) -- we should have it load by filename or something.
 	-- self.mainMenu = MainMenu(self)
-	love.filesystem.setIdentity("At the End of the Day") -- so that it doesn't save to src.
+	love.filesystem.setIdentity("At the End of the Day", false) -- so that it doesn't save to src. (and search that first!)
+	-- print(love.filesystem.getSaveDirectory( ))
 	self.gameplay = Gameplay(self)
 	self.opening = Opening(self)
 	self.scoredisplay = Scoredisplay(self, self.filename)
@@ -67,7 +69,7 @@ function Game:draw()
 	end
 	if (self.drawFPS) then
 		love.graphics.setColor(255, 0, 0)
-		love.graphics.print("FPS: "..love.timer.getFPS(), 10, 1080-45)
+		love.graphics.print("FPS: "..love.timer.getFPS().." "..love.filesystem.getSaveDirectory(), 10, 1080-45)
 		love.graphics.setColor(255, 255, 255)
 	end
 

@@ -110,7 +110,7 @@ end
 
 function Opening:keypressed(key, unicode)
 	--
-	if key == "j" then
+	if key == "j" and self.game.debug then
 		self.game:popScreenStack()
 		self.game:addToScreenStack(self.game.gameplay)
 	end

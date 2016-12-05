@@ -165,20 +165,26 @@ end
 function Gameplay:downwardCollision()
 	if math.floor(self.y/self.platformDistance) > math.floor((self.y+self.dy)/self.platformDistance) then
 		-- it passed through a platform height, (or would) so check if it should collide
-		local i = math.floor(self.y/self.platformDistance)
-		if i == 0 then
-			self.y = 0
-			self.dy = -self.dy/5*0
-			return
+		-- local i = math.floor(self.y/self.platformDistance)
+		local i = 0
+		for i = math.floor(self.y/self.platformDistance), math.floor((self.y+self.dy)/self.platformDistance)+1, -1 do
+			local collision = true
+			if i <= 0 then
+				self.y = 0
+				self.dy = -self.dy/5*0
+				collision = false
+			elseif self.platforms[i]+self.platformWidth/2 < self.x - self.currentWidth/2 then
+				-- it's wrong to the side
+				collision = false
+			elseif self.platforms[i]-self.platformWidth/2 > self.x + self.currentWidth/2 then
+				collision = false
+			end
+			if collision then
+				self.y = i*self.platformDistance
+				self.dy = -self.dy/5*0
+				return
+			end
 		end
-		if self.platforms[i]+self.platformWidth/2 < self.x - self.currentWidth/2 then
-			-- it's wrong to the side
-			return
-		elseif self.platforms[i]-self.platformWidth/2 > self.x + self.currentWidth/2 then
-			return
-		end
-		self.y = i*self.platformDistance
-		self.dy = -self.dy/5*0
 	end
 end
 
@@ -202,12 +208,15 @@ end
 
 function Gameplay:keypressed(key, unicode)
 	--
-	-- if key == "n" then
-	-- 	self.y = 0
-	-- end
-	-- if key == "y" then
-	-- 	self.y = self.y + 1000
-	-- end
+	if key == "n" and self.game.debug then
+		self.y = 0
+	end
+	if key == "y" and self.game.debug then
+		self.y = self.y + 1000
+	end
+	if key == "m" and self.game.debug then
+		self.dy = -1000
+	end
 	if key == "escape" then
 		self.game:addToScreenStack(Exitmenu(self.game, self.y/self.platformDistance))
 	end
